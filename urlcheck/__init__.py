@@ -76,11 +76,13 @@ def main():
                         if resp.status_code > 399:
                             errors.append(str(resp.status_code) + ' :: ' + url)
                     else:
+                        errors.append('USL :: ' + url)
                         print "--links of this type: [" + url + "] not yet supported"
                 else:
                     break
             
-            print '\n--\nRESULT\n' + htmlfile
+            print '\n-------\nRESULT\n' + htmlfile
+            if args.verbose: print '>> 404 = not found\n>> USL = unsupported link type\n'
             if not errors:
                 print "Everything checks out, boy-o!"
             else:
@@ -91,4 +93,5 @@ def main():
     
     else:
         print "No HTML files in directory or supplied."
+    print "urlcheck completed\n"
 
