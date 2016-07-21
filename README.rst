@@ -39,3 +39,39 @@ The following are use-case examples for urlcheck::
     
     $ urlcheck -h for help
 
+Example output::
+
+    $ [filename]
+    $ [RESPONSE CODE] :: [url]
+    
+    $ [ERRORS] (if any)
+    
+    -- [ NO ERRORS FOUND ]
+    
+    $ file1.html
+    $ 200 :: http://google.com
+    $ 200 :: http://github.com
+    $ 200 :: http://horriblevacuum.com
+    
+    $ No errors!
+    
+    $ file2.html
+    ...
+    ..
+    .
+    
+    -- [ ERRORS FOUND ]
+    
+    $ file1.html
+    $ 200 :: http://horriblevacuum.com
+    $ 404 :: http://badlink.com
+    $ 500 :: http://crashedserver.com
+    
+    $ The following errors were found in file1.html:
+    $ 404 :: http://badlink.com
+    $ 500 :: http://crashedserver.com
+    
+    $ file2.html
+    ...
+    ..
+    .
