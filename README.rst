@@ -49,9 +49,9 @@ Example output::
     -- [ NO ERRORS FOUND ]
     
     $ file1.html
-    $ 200 :: http://google.com
-    $ 200 :: http://github.com
-    $ 200 :: http://horriblevacuum.com
+    $ 200 :: http://andrewtlyman.com
+    $ 200 :: http://github.com/nerdylawman
+    $ 302 :: http://horriblevacuum.com
     
     $ No errors!
     

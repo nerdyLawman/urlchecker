@@ -43,13 +43,14 @@ def main():
     args = parser.parse_args()
     
     if args.remote or args.local:
-        htmlfiles = args.htmlfiles
+        htmlfiles = args.html
     else:
         htmlfiles = glob.glob('./*.html')
     
     if htmlfiles:
         for htmlfile in htmlfiles:
             errors = []
+            print "\nurlcheck for " + htmlfile + "\n"
             
             if args.remote:
                 f = urllib.urlopen(htmlfile)
@@ -71,19 +72,22 @@ def main():
                 if url:
                     if url[:4] == "http":
                         resp = requests.head(url)
-                        print str(resp.status_code) + ' :: ' + url + '\n'
+                        print str(resp.status_code) + ' :: ' + url
                         if resp.status_code > 399:
-                            errors += str(resp.status_code) + ' :: ' + url
+                            errors.append(str(resp.status_code) + ' :: ' + url)
+                    else:
+                        print "--links of this type: [" + url + "] not yet supported"
                 else:
                     break
             
-            print htmlfile
-            if errors == '':
+            print '\n--\nRESULT\n' + htmlfile
+            if not errors:
                 print "Everything checks out, boy-o!"
             else:
-                print "You've got some problems with " + htmlfile
+                print "The following problems found with " + htmlfile
                 for error in errors:
                     print error
+            raw_input("\nENTER to continue: ")
     
     else:
         print "No HTML files in directory or supplied."
