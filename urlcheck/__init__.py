@@ -23,28 +23,34 @@ def getURL(page):
 
 def main():
     '''
-    Main function of the boilerplate code is the entry point of the 'urlcheck' executable script (defined in setup.py).
+    Main function of the boilerplate code is the entry point of the 'urlcheck'
+    executable script (defined in setup.py).
+    
     '''
+    
+    # parsers
     parser = argparse.ArgumentParser()
     parser.add_argument("-v", "--verbose", action="store_true",
         help="increase output verbosity")
     parser.add_argument("-r", "--remote", action="store_true",
-        help="take user supplied urls to check links")
+        help="take user-supplied URLS to check")
     parser.add_argument("-l", "--local", action="store_true",
-        help="take user supplied .html files to check links")
+        help="take user-supplied .HTML files to check")
     parser.add_argument("-c", "--current", action="store_true",
-        help="search cwd for .html files to validate")
-    parser.add_argument("files", nargs="*",
-        help="URLs to check")
+        help="search current directory for .html files to validate")
+    parser.add_argument("html", nargs="*",
+        help="URLS or FILES s to check links")
     args = parser.parse_args()
     
     if args.remote or args.local:
-        htmlfiles = args.files
+        htmlfiles = args.htmlfiles
     else:
         htmlfiles = glob.glob('./*.html')
+    
     if htmlfiles:
         for htmlfile in htmlfiles:
-            errors = ""
+            errors = []
+            
             if args.remote:
                 f = urllib.urlopen(htmlfile)
                 data = f.read()
@@ -54,9 +60,11 @@ def main():
                     with open(filename, 'r') as infile:
                         data = infile.read()
                 else:
-                    print "File must be .html"
+                    print "Files must be .html"
+            
             page = str(BeautifulSoup(data))
-            errors = ""
+            
+            # link checking loop
             while True:
                 url, n = getURL(page)
                 page = page[n:]
@@ -65,14 +73,18 @@ def main():
                         resp = requests.head(url)
                         print str(resp.status_code) + ' :: ' + url + '\n'
                         if resp.status_code > 399:
-                            errors += url + str(resp.status_code)
+                            errors += str(resp.status_code) + ' :: ' + url
                 else:
                     break
+            
             print htmlfile
             if errors == '':
-                print "It all checks out, boy-o!"
+                print "Everything checks out, boy-o!"
             else:
-                print "You've got some problems!"
+                print "You've got some problems with " + htmlfile
+                for error in errors:
+                    print error
+    
     else:
-        print "No HTML files in directory or supplied"
+        print "No HTML files in directory or supplied."
 

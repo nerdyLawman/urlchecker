@@ -2,12 +2,11 @@
 urlcheck: A quick url page checker.
 ==================================================================
 
-TODO: Modify the whole file as necessary.
+urlcheck is a simple command-line utility for checking this links within
+one or a series of .html files and verifying that there are no broken links.
 
-This is a "long description" file for the package that you are creating.
-If you submit your package to PyPi, this text will be presented on the `public page <http://pypi.python.org/pypi/python_package_boilerplate>`_ of your package.
-
-Note: This README has to be written using `reStructured Text <http://docutils.sourceforge.net/rst.html>`_, otherwise PyPi won't format it properly.
+It can also be used to check .html files in the current working directory or
+take user-supplied urls to check remotely.
 
 Installation
 ------------
@@ -15,15 +14,28 @@ Installation
 The easiest way to install most Python packages is via ``easy_install`` or ``pip``::
 
     $ easy_install urlcheck
+    
+    |or|
+    
+    $ pip install urlcheck
 
 Usage
 -----
 
-TODO: This is a good place to start with a couple of concrete examples of how the package should be used.
+The following are use-case examples for urlcheck::
 
-The boilerplate code provides a dummy ``main`` function that prints out the word 'Hello'::
-
-    >> from urlcheck import main
-    >> main()
+    $ urlcheck
     
-When the package is installed via ``easy_install`` or ``pip`` this function will be bound to the ``urlcheck`` executable in the Python installation's ``bin`` directory (on Windows - the ``Scripts`` directory).
+    |or|
+    
+    $ urlcheck -c
+    look in the current directory for any .html files and check their links
+    
+    $ urlcheck -l file1.html file2.html ...
+    take user-supplied .html files and check their links
+    
+    $ urlcheck -r http://url1.com http://url2.com ...
+    take user-supplied urls and check their links
+    
+    $ urlcheck -h for help
+
