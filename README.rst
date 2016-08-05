@@ -22,7 +22,7 @@ The easiest way to install most Python packages is via ``easy_install`` or ``pip
 Usage
 -----
 
-The following are use-case examples for urlcheck::
+Example use-cases::
 
     $ urlcheck
     
@@ -37,7 +37,11 @@ The following are use-case examples for urlcheck::
     $ urlcheck -r http://url1.com http://url2.com ...
     take user-supplied urls and check their links
     
+    $ urlcheck -v
+    enables verbose output
+    
     $ urlcheck -h for help
+
 
 Example output::
 
@@ -46,28 +50,36 @@ Example output::
     
     $ [ERRORS] (if any)
     
-    -- [ NO ERRORS FOUND ]
+    -- [ NO ERRORS FOUND ] --
     
-    $ file1.html
+    $ urlcheck for file1.html
     $ 200 :: http://andrewtlyman.com
     $ 200 :: http://github.com/nerdylawman
     $ 302 :: http://horriblevacuum.com
     
-    $ No errors!
+    $ -------
+    $ RESULT for file1.html
     
-    $ file2.html
+    $ Everything checks out!
+    
+    $ urlcheck for file2.html
     ...
     ..
     .
     
-    -- [ ERRORS FOUND ]
+    -- [ ERRORS FOUND ] --
     
-    $ file1.html
+    $ urlcheck for file1.html
+    
     $ 200 :: http://horriblevacuum.com
     $ 404 :: http://badlink.com
     $ 500 :: http://crashedserver.com
     
-    $ The following errors were found in file1.html:
+    $ -------
+    $ RESULT for file1.html
+    
+    $ Found 2 ERRORS in file1.html:
+    
     $ 404 :: http://badlink.com
     $ 500 :: http://crashedserver.com
     
