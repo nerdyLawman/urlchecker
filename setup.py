@@ -46,7 +46,7 @@ setup(name="urlcheck",
       cmdclass={'test': PyTest},
       
       # TODO: List of packages that this one depends upon:   
-      install_requires=['BeautifulSoup', 'pytest'],
+      install_requires=['BeautifulSoup', 'pytest', 'requests', 'glob', 'argparse', 'urllib'],
       # TODO: List executable scripts, provided by the package (this is just an example)
       entry_points={
         'console_scripts': 

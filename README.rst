@@ -83,7 +83,7 @@ Example output::
     $ 404 :: http://badlink.com
     $ 500 :: http://crashedserver.com
     
-    $ file2.html
+    $ urlcheck for file2.html
     ...
     ..
     .
