@@ -134,8 +134,9 @@ def main():
                 print(colorize('Found ' + str(len(errors)) + ' ERRORS in ' + htmlfile + ':\n', 'c'))
                 for error in errors:
                     print(error)
-            if htmlfiles.index(htmlfile) >= len(htmlfiles):
-                raw_input('\nENTER to continue: ')
+            # continue
+            if htmlfiles.index(htmlfile) < len(htmlfiles) -1:
+                raw_input('\nENTER to check next file: ')
     
     else:
         print(colorize('No HTML files in directory or supplied.', 'y'))

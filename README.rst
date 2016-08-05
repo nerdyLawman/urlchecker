@@ -1,5 +1,5 @@
 ==================================================================
-urlcheck: A quick url checker (rather obviously).
+urlcheck: A quick url checker (rather obviously)
 ==================================================================
 
 urlcheck is a simple command-line utility for checking links within
@@ -37,7 +37,7 @@ Example use-cases::
     $ urlcheck -r http://url1.com http://url2.com ...
     take user-supplied urls and check their links
     
-    $ urlcheck -v
+    $ urlcheck -v ...
     enables verbose output
     
     $ urlcheck -h for help
