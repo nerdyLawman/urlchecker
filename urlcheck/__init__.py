@@ -23,17 +23,23 @@ def getURL(page):
 
 def colorize(output, color):
     
-    ansiYellow = "\x1B[1;33;40m"
-    ansiRed = "\x1B[1;31;40m"
-    ansiCyan = "\x1B[1;36;40m"
-    ansiReset = "\x1B[m"
+    ansiYellow = '\x1B[1;33;40m'
+    ansiRed = '\x1B[1;31;40m'
+    ansiCyan = '\x1B[1;36;40m'
+    ansiGreen = '\x1B[1;32;40m'
+    ansiMagenta = '\x1B[1;35;40m'
+    ansiReset = '\x1B[m'
     
-    if color == "r":
+    if color == 'r':
         ansiColor = ansiRed
-    elif color == "y":
+    elif color == 'y':
         ansiColor = ansiYellow
-    elif color == "c":
+    elif color == 'c':
         ansiColor = ansiCyan
+    elif color == 'g':
+        ansiColor = ansiGreen
+    elif color == 'm':
+        ansiColor = ansiMagenta
     else:
         ansiColor = ansiReset
     
@@ -47,18 +53,23 @@ def main():
     
     '''
     
+    resultTypes = ('\nRESULT TYPES\n'
+        '>> 404 = not found\n'
+        '>> 504 = server down\n'
+        '>> USL = unsupported link type\n')
+    
     # parsers
     parser = argparse.ArgumentParser()
-    parser.add_argument("-v", "--verbose", action="store_true",
-        help="increase output verbosity")
-    parser.add_argument("-r", "--remote", action="store_true",
+    parser.add_argument('-v', '--verbose', action='store_true',
+        help='increase output verbosity')
+    parser.add_argument('-r', '--remote', action='store_true',
         help="take user-supplied URLS to check")
-    parser.add_argument("-l", "--local", action="store_true",
-        help="take user-supplied .HTML files to check")
-    parser.add_argument("-c", "--current", action="store_true",
-        help="search current directory for .html files to validate")
-    parser.add_argument("html", nargs="*",
-        help="URLS or FILES s to check links")
+    parser.add_argument('-l', '--local', action='store_true',
+        help='take user-supplied .HTML files to check')
+    parser.add_argument('-c', '--current', action='store_true',
+        help='search current directory for .html files to validate')
+    parser.add_argument('html', nargs='*',
+        help='URLS or FILES s to check links')
     args = parser.parse_args()
     
     if args.remote or args.local:
@@ -69,7 +80,7 @@ def main():
     if htmlfiles:
         for htmlfile in htmlfiles:
             errors = []
-            print(colorize("\nurlcheck for " + htmlfile + "\n", "c"))
+            print(colorize('\nurlcheck for ' + htmlfile + '\n', 'c'))
             
             if args.remote:
                 f = urllib.urlopen(htmlfile)
@@ -80,7 +91,7 @@ def main():
                     with open(filename, 'r') as infile:
                         data = infile.read()
                 else:
-                    print("Files must be .html")
+                    print(colorize('Files must be .html', 'r'))
             
             page = str(BeautifulSoup(data))
             
@@ -89,30 +100,31 @@ def main():
                 url, n = getURL(page)
                 page = page[n:]
                 if url:
-                    if url[:4] == "http":
+                    if url[:4] == 'http':
                         resp = requests.head(url)
+                        printColor = 'g'
                         if resp.status_code > 399:
-                            errors.append(colorize(str(resp.status_code) + ' :: ' + url, "r"))
-                            print(colorize(str(resp.status_code) + ' :: ' + url, "r"))
-                        else:
-                            print(str(resp.status_code) + ' :: ' + url)
+                            errors.append(colorize(str(resp.status_code) + ' :: ' + url, 'r'))
+                            printColor = "r"
+                        print(colorize(str(resp.status_code) + ' :: ' + url, printColor))
                     else:
-                        errors.append(colorize('USL :: ' + url, "y"))
-                        print(colorize("--links of this type: [" + url + "] not yet supported", "y"))
+                        errors.append(colorize('USL :: ' + url, 'y'))
+                        print(colorize('USL :: ' + url, 'y'))
                 else:
                     break
             
-            print(colorize('\n-------\nRESULT\n' + htmlfile, "c"))
-            if args.verbose: print('>> 404 = not found\n>> USL = unsupported link type\n')
+            print(colorize('\n-------\nRESULT\n' + htmlfile, 'c'))
+            if args.verbose: print(colorize(resultTypes, 'm'))
             if not errors:
-                print("Everything checks out, boy-o!")
+                print('Everything checks out!')
             else:
-                print("\nThe following problems found with " + htmlfile)
+                print('\nThe following problems found with ' + htmlfile)
                 for error in errors:
                     print(error)
-            raw_input("\nENTER to continue: ")
+            if htmlfiles.index(htmlfile) >= len(htmlfiles):
+                raw_input('\nENTER to continue: ')
     
     else:
-        print(colorize("No HTML files in directory or supplied.", "y"))
-    print(colorize("urlcheck completed!\n", "c"))
+        print(colorize('No HTML files in directory or supplied.', 'y'))
+    print(colorize('urlcheck completed!\n', 'c'))
 
