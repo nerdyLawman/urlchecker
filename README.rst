@@ -1,12 +1,12 @@
 ==================================================================
-urlcheck: A quick url page checker.
+urlcheck: A quick url checker (rather obviously).
 ==================================================================
 
-urlcheck is a simple command-line utility for checking this links within
-one or a series of .html files and verifying that there are no broken links.
+urlcheck is a simple command-line utility for checking links within
+one or a series of .html files and verifying that there are no broken.
 
 It can also be used to check .html files in the current working directory or
-take user-supplied urls to check remotely.
+take user-supplied urls to check links remotely.
 
 Installation
 ------------
