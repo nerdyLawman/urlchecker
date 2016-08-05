@@ -22,6 +22,10 @@ def getURL(page):
     return url, end_quote
 
 def colorize(output, color):
+    """
+    returns a string formatted with a ANSI color codes
+    for purtier output,
+    """
     
     ansiYellow = '\x1B[1;33;40m'
     ansiRed = '\x1B[1;31;40m'
@@ -47,16 +51,25 @@ def colorize(output, color):
 
 
 def main():
-    '''
-    Main function of the boilerplate code is the entry point of the 'urlcheck'
-    executable script (defined in setup.py).
+    """"
+    urlcheck is a commandline app that will verify hyperlinks of a HTML file
+    and report a list of errors if any are found.
     
-    '''
+    """
     
-    resultTypes = ('\nRESULT TYPES\n'
-        '>> 404 = not found\n'
-        '>> 504 = server down\n'
-        '>> USL = unsupported link type\n')
+    # explanations for verbose output
+    resultTypes = ('\nCommon Status Codes:\n\n'
+        '>> 400 = bad request\n'
+        '>> 401 = unauthorized\n'
+        '>> 403 = forbidden\n'
+        '>> 404 = url not found\n'
+        '>> 408 = request timeout\n'
+        '>> 500 = internal server error\n'
+        '>> 502 = bad gateway\n'
+        '>> 503 = service unavailable\n'
+        '>> 504 = gateway timeout\n'
+        '>> USL = unsupported link type\n\n'
+        'for more codes and info, see:\nhttps://en.wikipedia.org/wiki/List_of_HTTP_status_codes\n')
     
     # parsers
     parser = argparse.ArgumentParser()
@@ -113,12 +126,12 @@ def main():
                 else:
                     break
             
-            print(colorize('\n-------\nRESULT\n' + htmlfile, 'c'))
+            print(colorize('\n-------\nRESULT for ' + htmlfile, 'c'))
             if args.verbose: print(colorize(resultTypes, 'm'))
             if not errors:
-                print('Everything checks out!')
+                print(colorize('\nEverything checks out!', 'c'))
             else:
-                print('\nThe following problems found with ' + htmlfile)
+                print(colorize('Found ' + str(len(errors)) + ' ERRORS in ' + htmlfile + ':\n', 'c'))
                 for error in errors:
                     print(error)
             if htmlfiles.index(htmlfile) >= len(htmlfiles):
@@ -126,5 +139,5 @@ def main():
     
     else:
         print(colorize('No HTML files in directory or supplied.', 'y'))
-    print(colorize('urlcheck completed!\n', 'c'))
+    print(colorize('\nurlcheck completed!\n', 'c'))
 
