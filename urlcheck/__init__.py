@@ -113,7 +113,7 @@ def main():
                 url, n = getURL(page)
                 page = page[n:]
                 if url:
-                    if url[:4] == 'http' or url[0] == '/':
+                    if url[:4] == 'http' or (url[0] == '/' and args.remote):
                         if url[0] == '/':
                             url = htmlfile + url
                         resp = requests.head(url)

@@ -8,6 +8,8 @@ one or a series of .html files and verifying that there are no broken.
 It can also be used to check .html files in the current working directory or
 take user-supplied urls to check links remotely.
 
+NOTES: Will handle relative links for remote files but not currently for local.
+
 Installation
 ------------
 
