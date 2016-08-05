@@ -21,6 +21,25 @@ def getURL(page):
     url = page[start_quote + 1: end_quote]
     return url, end_quote
 
+def colorize(output, color):
+    
+    ansiYellow = "\x1B[1;33;40m"
+    ansiRed = "\x1B[1;31;40m"
+    ansiCyan = "\x1B[1;36;40m"
+    ansiReset = "\x1B[m"
+    
+    if color == "r":
+        ansiColor = ansiRed
+    elif color == "y":
+        ansiColor = ansiYellow
+    elif color == "c":
+        ansiColor = ansiCyan
+    else:
+        ansiColor = ansiReset
+    
+    return(ansiColor + output + ansiReset)
+
+
 def main():
     '''
     Main function of the boilerplate code is the entry point of the 'urlcheck'
@@ -50,7 +69,7 @@ def main():
     if htmlfiles:
         for htmlfile in htmlfiles:
             errors = []
-            print "\nurlcheck for " + htmlfile + "\n"
+            print(colorize("\nurlcheck for " + htmlfile + "\n", "c"))
             
             if args.remote:
                 f = urllib.urlopen(htmlfile)
@@ -61,7 +80,7 @@ def main():
                     with open(filename, 'r') as infile:
                         data = infile.read()
                 else:
-                    print "Files must be .html"
+                    print("Files must be .html")
             
             page = str(BeautifulSoup(data))
             
@@ -72,26 +91,28 @@ def main():
                 if url:
                     if url[:4] == "http":
                         resp = requests.head(url)
-                        print str(resp.status_code) + ' :: ' + url
                         if resp.status_code > 399:
-                            errors.append(str(resp.status_code) + ' :: ' + url)
+                            errors.append(colorize(str(resp.status_code) + ' :: ' + url, "r"))
+                            print(colorize(str(resp.status_code) + ' :: ' + url, "r"))
+                        else:
+                            print(str(resp.status_code) + ' :: ' + url)
                     else:
-                        errors.append('USL :: ' + url)
-                        print "--links of this type: [" + url + "] not yet supported"
+                        errors.append(colorize('USL :: ' + url, "y"))
+                        print(colorize("--links of this type: [" + url + "] not yet supported", "y"))
                 else:
                     break
             
-            print '\n-------\nRESULT\n' + htmlfile
-            if args.verbose: print '>> 404 = not found\n>> USL = unsupported link type\n'
+            print(colorize('\n-------\nRESULT\n' + htmlfile, "c"))
+            if args.verbose: print('>> 404 = not found\n>> USL = unsupported link type\n')
             if not errors:
-                print "Everything checks out, boy-o!"
+                print("Everything checks out, boy-o!")
             else:
-                print "The following problems found with " + htmlfile
+                print("\nThe following problems found with " + htmlfile)
                 for error in errors:
-                    print error
+                    print(error)
             raw_input("\nENTER to continue: ")
     
     else:
-        print "No HTML files in directory or supplied."
-    print "urlcheck completed\n"
+        print(colorize("No HTML files in directory or supplied.", "y"))
+    print(colorize("urlcheck completed!\n", "c"))
 
