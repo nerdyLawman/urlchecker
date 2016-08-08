@@ -1,9 +1,9 @@
-'''
+"""
 urlcheck: Main module
 
 Copyright 2016, Art Luman
 Licensed under MIT.
-'''
+"""
 
 import requests, glob, argparse, urllib
 from BeautifulSoup import BeautifulSoup
@@ -23,8 +23,8 @@ def getURL(page):
 
 def colorize(output, color):
     """
-    returns a string formatted with a ANSI color codes
-    for purtier output,
+    returns a string with a ANSI color codes
+    for purtier output.
     """
     
     ansiYellow = '\x1B[1;33;40m'
@@ -46,7 +46,6 @@ def colorize(output, color):
         ansiColor = ansiMagenta
     else:
         ansiColor = ansiReset
-    
     return(ansiColor + output + ansiReset)
 
 
@@ -54,7 +53,6 @@ def main():
     """"
     urlcheck is a commandline app that will verify hyperlinks of a HTML file
     and report a list of errors if any are found.
-    
     """
     
     # explanations for verbose output
